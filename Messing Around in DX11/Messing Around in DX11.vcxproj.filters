@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>aa6c2ef3-4d17-42af-a724-f838500b9f02</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>bfadf12d-15a7-4fa4-a44a-b71ed27fc933</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="StepTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Debugging\Logging.h" />
+    <ClInclude Include="Debuggers.h" />
+    <ClInclude Include="Debugging\Logger Types\StdOutLogger.h" />
+    <ClInclude Include="Debugging\LoggerTypes.h" />
+    <ClInclude Include="Debugging\Logger Types\DXLogger.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="Clickable.h" />
+    <ClInclude Include="RenderableObject.h" />
+    <ClInclude Include="flag.h" />
+    <ClInclude Include="UpdatingObject.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="SimpleHelper.h" />
+    <ClInclude Include="Debugging\Logger Types\BufferedStdLogger.h" />
+    <ClInclude Include="Debugging\LoggerModes.h" />
+    <ClInclude Include="Debugging\LoggingEnums.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="DeviceResources2D.h" />
+    <ClInclude Include="CPUUsageTimer.h" />
+    <ClInclude Include="Performance.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="DeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Debugging\Logging.cpp" />
+    <ClCompile Include="Debugging\Logger Types\StdOutLogger.cpp" />
+    <ClCompile Include="Debugging\Logger Types\DXLogger.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="Clickable.cpp" />
+    <ClCompile Include="RenderableObject.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="Debugging\Logger Types\BufferedStdLogger.cpp" />
+    <ClCompile Include="Debugging\LoggerModes.cpp" />
+    <ClCompile Include="SimpleHelper.cpp" />
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="DeviceResources2D.cpp" />
+    <ClCompile Include="CPUUsageTimer.cpp" />
+    <ClCompile Include="Performance.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="directx.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
