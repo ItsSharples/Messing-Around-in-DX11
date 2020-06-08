@@ -49,7 +49,7 @@ void Game::Initialize(HWND window, int width, int height)
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
 
-    CreateDeviceIndependentResources();    
+    CreateDeviceIndependentResources();
 }
 
 #pragma region Frame Update
@@ -89,7 +89,7 @@ void Game::Tick()
         debug_str += L"Fixed FPS: " + std::to_wstring(current_fixed_fps) + L"\n";
         debug_str += L"Update Share: " + std::to_wstring(update_util) + L"%\n";
         debug_str += L"Render Share: " + std::to_wstring(render_util) + L"%\n";
-        debug_str += L"CPU Usage: " + std::to_wstring(Performance::CPU::GetUsage()) + L"%\n";
+        debug_str += L"CPU Usage: " + std::to_wstring(Performance::CPU::GetUsage() * 100.f) + L"%\n";
 
         
         auto ram_bytes = Performance::RAM::GetUsage();
@@ -167,6 +167,8 @@ void Game::Render()
         m_d2deviceResources->writeFactory->CreateTextLayout(debug_str.c_str(), debug_str.length(), m_d2deviceResources->default_format, m_d2deviceResources->window.width, m_d2deviceResources->window.height, &debug_layout);
         auto brush = m_d2deviceResources->GetBrush();
         m_d2deviceResources->DrawTextLayout({ 2, 2 }, debug_layout.Get(), brush);
+
+        m_d2deviceResources->DrawGeometry(test_geometry, geometry_num);
     }
     
 
@@ -274,6 +276,21 @@ void Game::CreateDeviceIndependentResources()
     //auto second = random_generator.rand();
     //Logging::DEBUG("First Two 'Random' Values: "+ std::to_string(first) +"," + std::to_string(second));
     //Logging::DEBUG(SimpleHelpers::to_string(test));
+
+    FLOAT current_height = mid_height;
+    FLOAT width_segment = default_width / ((FLOAT)geometry_num - 1.f);
+    FLOAT max_height = m_deviceResources->GetOutputSize().bottom;
+    FLOAT min_height = current_height - 200.f;
+    for(int i = 0; i < geometry_num; i++)
+    {
+        FLOAT up_down = random_generator.rand(0, 2) - 1.f;
+        current_height = (current_height + up_down);
+        if(current_height > max_height)
+            current_height = max_height;
+        if(current_height < min_height)
+            current_height = min_height;
+        test_geometry[i] = { i * width_segment,  current_height};
+    };
 
 }
 

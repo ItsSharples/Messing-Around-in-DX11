@@ -9,7 +9,7 @@ namespace
 #define DefaultBrushName L"yellow"
 #define DefaultFontName L"Fira Code"
 
-
+class XMVECTOR;
 }
 
 class DeviceResources2D
@@ -55,6 +55,9 @@ public:
     // Using a specific Layout
     //void DrawText(std::wstring text, D2D1_POINT_2F topLeft, IDWriteTextLayout* layout);
     void DrawTextLayout(D2D1_POINT_2F topLeft, IDWriteTextLayout* layout, ID2D1SolidColorBrush* brush);
+
+
+    void DrawGeometry(const D2D1_POINT_2F points[], UINT32 num_points);
 
 
 

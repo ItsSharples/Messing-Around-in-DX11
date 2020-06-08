@@ -80,8 +80,8 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
-        //HWND hwnd = CreateWindowExW(0, L"Messing_Around_in_DX11WindowClass", L"Messing Around in DX11", WS_OVERLAPPEDWINDOW,
-        HWND hwnd = CreateWindowExW(WS_EX_TOPMOST, L"Messing_Around_in_DX11WindowClass", L"Messing Around in DX11", WS_POPUP,
+        HWND hwnd = CreateWindowExW(0, L"Messing_Around_in_DX11WindowClass", L"Messing Around in DX11", WS_OVERLAPPEDWINDOW,
+        //HWND hwnd = CreateWindowExW(WS_EX_TOPMOST, L"Messing_Around_in_DX11WindowClass", L"Messing Around in DX11", WS_POPUP,
             CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance,
             nullptr);
         // TODO: Change to CreateWindowExW(WS_EX_TOPMOST, L"Messing_Around_in_DX11WindowClass", L"Messing Around in DX11", WS_POPUP,
@@ -90,7 +90,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
         if (!hwnd)
             return 1;
 
-        ShowWindow(hwnd, SW_SHOWMAXIMIZED);
+        ShowWindow(hwnd, nCmdShow);
         // TODO: Change nCmdShow to SW_SHOWMAXIMIZED to default to fullscreen.
 
         SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(g_game.get()) );

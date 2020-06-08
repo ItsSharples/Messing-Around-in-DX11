@@ -6,6 +6,9 @@ namespace
 {
     std::atomic<double> Headroom;
     std::atomic<double> Load;
+
+    std::atomic<double> ProcessHeadroom;
+    std::atomic<double> ProcessLoad;
 }
 
 namespace CPU_Usage

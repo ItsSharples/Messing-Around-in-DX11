@@ -192,6 +192,21 @@ void DeviceResources2D::DrawTextLayout(D2D1_POINT_2F topLeft, IDWriteTextLayout*
     }
 }
 
+void DeviceResources2D::DrawGeometry(const D2D1_POINT_2F points[], UINT32 num_points)
+{
+//  It is I who gets to do the Geometry Math >:3c
+    Microsoft::WRL::ComPtr<ID2D1PathGeometry> pathGeo;
+    factory->CreatePathGeometry(&pathGeo);
+    Microsoft::WRL::ComPtr<ID2D1GeometrySink> sink;
+    pathGeo->Open(&sink);
+    sink->BeginFigure(points[0], D2D1_FIGURE_BEGIN_FILLED);
+    sink->AddLines(points, num_points);
+    sink->EndFigure(D2D1_FIGURE_END_OPEN);
+    sink->Close();
+    
+    d2DeviceContext->DrawGeometry(pathGeo.Get(), default_brush);
+}
+
 HRESULT DeviceResources2D::EndDraw()
 {
     if(status >= able_to_draw)

@@ -1,7 +1,5 @@
-// Accessed from https://stackoverflow.com/a/46009187
+// Based on https://stackoverflow.com/a/46009187
 
-// DOSHeadroom.cpp : Defines the entry point for the console application.
-//
 
 #include "pch.h"
 #include "CPUUsageTimer.h"
@@ -34,18 +32,25 @@ void CALLBACK UITimerRoutine(PVOID lpParam, BOOLEAN TimerOrWaitFired)
     FILETIME IdleTime, KernelTime, UserTime;
     FILETIME CreationTime, ExitTime, KernelProcess, UserProcess;
 
-    static unsigned long long PrevTotal = 0;
-    static unsigned long long PrevIdle = 0;
-    static unsigned long long PrevUser = 0;
+#define time_t  unsigned long long
+    static time_t PrevTotal = 0;
+    static time_t PrevIdle = 0;
+    //static time_t PrevUser = 0;
 
-    unsigned long long ThisTotal;
-    unsigned long long ThisIdle, ThisKernel, ThisUser;
+    static time_t PrevProcessTotal = 0;
+    //static time_t PrevProcessIdle = 0;
+    //static time_t PrevProcessUser = 0;
 
-    unsigned long long ProcessTotal;
-    unsigned long long ProcessCreation, ProcessKernel, ProcessUser;
+    time_t ThisTotal;
+    time_t ThisIdle, ThisKernel, ThisUser;
 
-    unsigned long long TotalSinceLast, IdleSinceLast, UserSinceLast;
+    time_t ProcessTotal;
+    time_t ProcessCreation, ProcessKernel, ProcessUser;
 
+    time_t TotalSinceLast, IdleSinceLast, UserSinceLast;
+
+    time_t ProcessTotalSinceLast, ProcessKernelSinceLast, ProcessUserSinceLast;
+    
 
     // GET THE KERNEL / USER / IDLE times.  
     // And oh, BTW, kernel time includes idle time
@@ -63,12 +68,17 @@ void CALLBACK UITimerRoutine(PVOID lpParam, BOOLEAN TimerOrWaitFired)
     ThisTotal = ThisKernel + ThisUser; 
     TotalSinceLast = ThisTotal - PrevTotal;
     IdleSinceLast = ThisIdle - PrevIdle;
-    UserSinceLast = ThisUser - PrevUser;
+    //UserSinceLast = ThisUser - PrevUser;
 
-    ActualTimeInKernel = ProcessKernel - ProcessCreation;
-    ActualTimeInUser = ProcessUser - ProcessCreation;
+    ProcessTotal = ProcessKernel + ProcessUser;
+    ProcessTotalSinceLast = ProcessTotal - PrevProcessTotal;
 
+    double ProcessShare;
+    ProcessShare = (double)ProcessTotalSinceLast / (double)TotalSinceLast;
     Headroom = (double)IdleSinceLast / (double)TotalSinceLast;
+
+    ProcessLoad = ProcessShare * Headroom;
+    ProcessHeadroom = 1.0 - ProcessLoad;
     Load = 1.0 - Headroom;
 
     double tmp;
@@ -83,7 +93,9 @@ void CALLBACK UITimerRoutine(PVOID lpParam, BOOLEAN TimerOrWaitFired)
 
     PrevTotal = ThisTotal;
     PrevIdle = ThisIdle;
-    PrevUser = ThisUser;
+    //PrevUser = ThisUser;
+
+    PrevProcessTotal = ProcessTotal;
 
     // print results to output window of VS when run in Debug
     //sprintf(&ProcessorHeadroomPercentage.front(), "Headroom: %2.0lf%%   Load: %2.0lf%%\n", Headroom, Load);
@@ -111,7 +123,7 @@ void SetupMyTimer(void)
 }
 double getLoad()
 {
-    return Load;
+    return ProcessLoad;
 }
 
 }
