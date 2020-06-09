@@ -123,6 +123,10 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
+
+    
+    GenerateTerrain();
+
     m_deviceResources->PIXEndEvent();
 }
 
@@ -149,6 +153,7 @@ void Game::Render()
         return;
     }
 
+    
 
     Clear();
 
@@ -165,9 +170,10 @@ void Game::Render()
         // TODO Fix this mess ;-;
         Microsoft::WRL::ComPtr<IDWriteTextLayout> debug_layout;
         m_d2deviceResources->writeFactory->CreateTextLayout(debug_str.c_str(), debug_str.length(), m_d2deviceResources->default_format, m_d2deviceResources->window.width, m_d2deviceResources->window.height, &debug_layout);
-        auto brush = m_d2deviceResources->GetBrush();
-        m_d2deviceResources->DrawTextLayout({ 2, 2 }, debug_layout.Get(), brush);
+        //debug_layout.Attach( m_d2deviceResources->CreateLayout(debug_str, m_d2deviceResources->default_format));
+        m_d2deviceResources->DrawTextLayout({ 2, 2 }, debug_layout.Get(), m_d2deviceResources->GetBrush());
 
+        
         m_d2deviceResources->DrawGeometry(test_geometry, geometry_num);
     }
     
@@ -277,18 +283,24 @@ void Game::CreateDeviceIndependentResources()
     //Logging::DEBUG("First Two 'Random' Values: "+ std::to_string(first) +"," + std::to_string(second));
     //Logging::DEBUG(SimpleHelpers::to_string(test));
 
+}
+
+void Game::GenerateTerrain()
+{
     FLOAT current_height = mid_height;
     FLOAT width_segment = default_width / ((FLOAT)geometry_num - 1.f);
     FLOAT max_height = m_deviceResources->GetOutputSize().bottom;
     FLOAT min_height = current_height - 200.f;
     for(int i = 0; i < geometry_num; i++)
     {
-        FLOAT up_down = random_generator.rand(0, 2) - 1.f;
+        FLOAT up_down = random_generator.rand(0, 5) - 3.f;
         current_height = (current_height + up_down);
+
         if(current_height > max_height)
             current_height = max_height;
         if(current_height < min_height)
             current_height = min_height;
+
         test_geometry[i] = { i * width_segment,  current_height};
     };
 

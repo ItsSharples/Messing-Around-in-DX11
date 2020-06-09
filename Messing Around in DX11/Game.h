@@ -105,6 +105,7 @@ private:
     static constexpr int default_height = 600;
 
     //RenderTarget* text_renderer = nullptr;
+    void GenerateTerrain();
 
     static constexpr UINT32 geometry_num = 10000;
     static constexpr auto mid_height = default_height / 2;
