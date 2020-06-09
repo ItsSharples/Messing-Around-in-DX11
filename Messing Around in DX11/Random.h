@@ -45,7 +45,7 @@ public:
 	[[nodiscard]] uint32_t rand(uint32_t max) { return rand(0, max); }
 
 	// Returns a value between min and max
-	[[nodiscard]] uint32_t rand(uint32_t min, uint32_t max) {return rand() % (max - min) + min; }
+	[[nodiscard]] uint32_t rand(uint32_t min, uint32_t max) {return (rand() % (max - min) + min); }
 private:
 	struct xorshift128_state state;
 	bool is_seeded;
