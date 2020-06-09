@@ -68,29 +68,17 @@ void CALLBACK UITimerRoutine(PVOID lpParam, BOOLEAN TimerOrWaitFired)
     ThisTotal = ThisKernel + ThisUser; 
     TotalSinceLast = ThisTotal - PrevTotal;
     IdleSinceLast = ThisIdle - PrevIdle;
-    //UserSinceLast = ThisUser - PrevUser;
+
+    Headroom = (double)IdleSinceLast / (double)TotalSinceLast;
+    Load = 1.0 - Headroom;
 
     ProcessTotal = ProcessKernel + ProcessUser;
     ProcessTotalSinceLast = ProcessTotal - PrevProcessTotal;
 
-    double ProcessShare;
-    ProcessShare = (double)ProcessTotalSinceLast / (double)TotalSinceLast;
-    Headroom = (double)IdleSinceLast / (double)TotalSinceLast;
-
+    double ProcessShare = (double)ProcessTotalSinceLast / (double)TotalSinceLast;
     ProcessLoad = ProcessShare * Headroom;
     ProcessHeadroom = 1.0 - ProcessLoad;
-    Load = 1.0 - Headroom;
-
-    double tmp;
-
-    tmp = Headroom;
-    tmp *= 100.0;  // to make it percent
-    Headroom = tmp;
-
-    tmp = Load;
-    tmp *= 100.0;  // percent
-    Load = tmp;
-
+    
     PrevTotal = ThisTotal;
     PrevIdle = ThisIdle;
     //PrevUser = ThisUser;
