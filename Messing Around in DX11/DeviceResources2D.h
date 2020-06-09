@@ -75,6 +75,8 @@ public:
     std::unordered_map<std::wstring, Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>> brush_map;
     std::unordered_map<std::wstring, Microsoft::WRL::ComPtr<IDWriteTextFormat>> format_map;
 
+    std::vector<Microsoft::WRL::ComPtr<IDWriteTextLayout>> layouts_in_use;
+
     ID2D1SolidColorBrush* default_brush;
     IDWriteTextFormat* default_format;
 

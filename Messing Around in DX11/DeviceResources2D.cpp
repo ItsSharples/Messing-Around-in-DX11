@@ -137,7 +137,8 @@ IDWriteTextLayout* DeviceResources2D::CreateLayout(const std::wstring& text, IDW
 {
     if(status >= loaded_devices)
     {
-        Microsoft::WRL::ComPtr<IDWriteTextLayout> newLayout;
+        layouts_in_use.emplace_back();
+        auto newLayout = layouts_in_use.back();
         writeFactory->CreateTextLayout(text.c_str(), text.length(), format, window.width, window.height, &newLayout);
         return newLayout.Get();
     }
