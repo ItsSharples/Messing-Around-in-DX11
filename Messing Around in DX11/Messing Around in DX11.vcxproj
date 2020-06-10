@@ -184,6 +184,7 @@
     <ClInclude Include="RenderTarget.h" />
     <ClInclude Include="SimpleHelper.h" />
     <ClInclude Include="StepTimer.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UpdatingObject.h" />
     <ClInclude Include="Window.h" />
@@ -207,11 +208,9 @@
     <ClCompile Include="RenderableObject.cpp" />
     <ClCompile Include="RenderTarget.cpp" />
     <ClCompile Include="SimpleHelper.cpp" />
+    <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico" />

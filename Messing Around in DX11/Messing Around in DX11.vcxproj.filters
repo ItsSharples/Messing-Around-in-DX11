@@ -40,6 +40,7 @@
     <ClInclude Include="DeviceResources2D.h" />
     <ClInclude Include="CPUUsageTimer.h" />
     <ClInclude Include="Performance.h" />
+    <ClInclude Include="ThreadPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -64,9 +65,7 @@
     <ClCompile Include="DeviceResources2D.cpp" />
     <ClCompile Include="CPUUsageTimer.cpp" />
     <ClCompile Include="Performance.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ClCompile Include="ThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">
