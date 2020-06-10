@@ -27,7 +27,7 @@ public:
 		}
 		else { return nullptr; }
 	}
-	Vector2 GetTargetSize() { D3D11_TEXTURE2D_DESC* hehe;  m_renderTargetTexture->GetDesc(hehe); return { (float)hehe->Width, (float)hehe->Height }; }
+	Vector2 GetTargetSize() { D3D11_TEXTURE2D_DESC* texture_desc;  m_renderTargetTexture->GetDesc(texture_desc); return { (float)texture_desc->Width, (float)texture_desc->Height }; }
 	//clear render target
 	void ClearRenderTarget(ID3D11DeviceContext* _pd3dImmediateContext, float red, float green, float blue, float alpha);
 
