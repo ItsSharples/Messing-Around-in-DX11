@@ -6,36 +6,71 @@
 #include <future>
 #include <queue>
 
+#include <cstdarg>// Magic Anynumber of Args Module UwU
+
 namespace
 {
 std::mutex shared_mutex;
+
+
+template <typename T>
+std::function<void*()> castToVoidFunc (T* (*func)())
+{
+  return [=](){ return func(); };
 }
 
-template<class Function>
+
+
+}
+
+template<typename ReturnType>
 struct Job
 {
+	//typedef std::function<ReturnType> BoundFunction;
 public:
-	typedef Function Functor();
-
-	Job(Functor* func) { this->function = func; };
+	template<class BoundFunction>
+	Job(BoundFunction func)
+	{
+		if(std::is_bind_expression<decltype(func)>)
+		{
+			function = &func;
+		}
+		else
+		{
+			throw std::exception("Not a Bound Function");
+		}
+	};
 	~Job()	= default;
 
 	template<typename... Args>
-	void run() 
+	void run(Args... args) 
 	{
 		std::lock_guard<std::mutex> Lock(shared_mutex); 
-		job_promise.set_value(Function(Args...));
+		job_promise.set_value(function(args...)); // Do the job and keep the returned value
 	};
 
-	decltype(Function()) resolve() { return job_future.get(); };
+	auto resolve() -> ReturnType { return job_future.get(); };
+
+
 
 protected:
 private:
-	Functor* function; 
+	void* function; 
 
-	std::promise<decltype(Function())> job_promise;
-	std::future<decltype(Function())> job_future = job_promise.get_future();
+	std::promise<ReturnType> job_promise;
+	std::future<ReturnType> job_future = job_promise.get_future();
 };
+
+namespace JobFactory
+{
+template<typename Function, typename... Args>
+static auto make_job(Function function, Args... args) -> Job<decltype(function)>*
+{
+	auto bound_function = std::bind(function, args...);
+	return new Job<decltype(function)>(bound_function);
+}
+}
+
 
 class ThreadPool
 {
@@ -46,17 +81,21 @@ public:
 	size_t getPoolSize() = delete;
 	size_t getFreeThreadCount() = delete;
 
-	template<typename Function>
-	bool addJob(Job<Function>* job) = delete;
+	template<typename ReturnType>
+	bool addJob(Job<ReturnType>* job) = delete;
 
 	void runAll()
 	{
-		auto lambda = [](){return 1; };
-		auto* job = new Job<int>(lambda);
-
+		auto lambda = [&](int i){return i; };
+		auto bound_lambda = std::bind(lambda, std::placeholders::_1);
+		auto* job = new Job<int>(bound_lambda);
+		
+		auto RAII_Job = JobFactory::make_job(lambda, 5);
+		
+		int b = bound_lambda(5);
 		job->run();
 
-		int result = job->resolve();
+		auto result = job->resolve();
 
 	}
 
