@@ -1,4 +1,4 @@
-//
+﻿//
 // Game.cpp
 //
 
@@ -27,6 +27,7 @@ using namespace DirectX;
 using Microsoft::WRL::ComPtr;
 
 Game::Game() noexcept(false)
+    : fps_graph(400, 400, default_width - 400, 0)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     m_deviceResources->RegisterDeviceNotify(this);
@@ -91,12 +92,17 @@ void Game::Tick()
         debug_str += L"Render Share: " + std::to_wstring(render_util) + L"%\n";
         debug_str += L"CPU Usage: " + std::to_wstring(Performance::CPU::GetUsage() * 100.f) + L"%\n";
 
+
+
         
         auto ram_bytes = Performance::RAM::GetUsage();
-        auto ram_MBytes = ram_bytes / 1000000;
+        auto ram_MBytes = ram_bytes >> 20;
         debug_str += L"Ram Usage: " + std::to_wstring(ram_MBytes) + L"MB\n";
 
         Logging::Flush();
+
+        
+        fps_graph.setNextPoint((FLOAT)current_fps);
     });
     Time::stop();
     Time::start();
@@ -125,7 +131,7 @@ void Game::Update(DX::StepTimer const& timer)
     elapsedTime;
 
     
-    GenerateTerrain();
+    //GenerateTerrain();
 
     m_deviceResources->PIXEndEvent();
 }
@@ -173,8 +179,11 @@ void Game::Render()
         //debug_layout.Attach( m_d2deviceResources->CreateLayout(debug_str, m_d2deviceResources->default_format));
         m_d2deviceResources->DrawTextLayout({ 2, 2 }, debug_layout.Get(), m_d2deviceResources->GetBrush());
 
-        
-        m_d2deviceResources->DrawGeometry(test_geometry, geometry_num);
+        Microsoft::WRL::ComPtr<IDWriteTextLayout> henlo_world;
+        std::wstring sign_cookie = {L"     |￣￣|\n     |   |\n     |\xD83C\xDF6A |\n     |   |\n     |___|\n(\\__/) ||\n(•ㅅ•) ||\n/ 　 づ"};
+        m_d2deviceResources->writeFactory->CreateTextLayout(sign_cookie.c_str(), sign_cookie.length(), m_d2deviceResources->default_format, m_d2deviceResources->window.width, m_d2deviceResources->window.height, &henlo_world);
+        m_d2deviceResources->DrawTextLayout({ 200, 300  }, henlo_world.Get(), m_d2deviceResources->GetBrush());        
+        m_d2deviceResources->DrawGeometry(fps_graph.getPoints(), fps_graph.getNumPoints());
     }
     
 
@@ -283,34 +292,34 @@ void Game::CreateDeviceIndependentResources()
     //Logging::DEBUG("First Two 'Random' Values: "+ std::to_string(first) +"," + std::to_string(second));
     //Logging::DEBUG(SimpleHelpers::to_string(test));
 
+    
 }
 
 void Game::GenerateTerrain()
 {
-    FLOAT current_height = mid_height;
-    FLOAT width_segment = default_width / ((FLOAT)geometry_num - 1.f);
-    FLOAT max_height = m_deviceResources->GetOutputSize().bottom;
-    FLOAT min_height = current_height - 200.f;
-    for(int i = 0; i < geometry_num; i++)
-    {
-        FLOAT up_down = random_generator.rand(0, 5) - 3.f;
-        current_height = (current_height + up_down);
+    //FLOAT current_height = mid_height;
+    //FLOAT width_segment = default_width / ((FLOAT)geometry_num - 1.f);
+    //FLOAT max_height = m_deviceResources->GetOutputSize().bottom;
+    //FLOAT min_height = current_height - 200.f;
+    //for(int i = 0; i < geometry_num; i++)
+    //{
+    //    FLOAT up_down = random_generator.rand(0, 5) - 3.f;
+    //    current_height = (current_height + up_down);
 
-        if(current_height > max_height)
-            current_height = max_height;
-        if(current_height < min_height)
-            current_height = min_height;
+    //    if(current_height > max_height)
+    //        current_height = max_height;
+    //    if(current_height < min_height)
+    //        current_height = min_height;
 
-        test_geometry[i] = { i * width_segment,  current_height};
-    };
-
+    //    test_geometry[i] = { i * width_segment,  current_height};
+    //};
 }
 
 void Game::CreateTimers()
 {
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
-    m_timer.SetTargetElapsedTicks(1);
+    m_timer.SetTargetElapsedTicks(0);
 
     m_fixedTimer.SetFixedTimeStep(true);
     m_fixedTimer.SetTargetElapsedSeconds(1.0 / 60);
@@ -344,6 +353,8 @@ void Game::CreateDeviceDependentResources()
     m_d2deviceResources->CreateDeviceDependentResources(device);
     
     m_d2deviceResources->CreateDefaultItems();
+
+    debug_target = std::make_unique<RenderTarget>(device, 400, 400);
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.

@@ -13,6 +13,7 @@
 
 #include "Random.h"
 #include <RenderTarget.h>
+#include <Debug_Graph.h>
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -93,6 +94,8 @@ private:
     // Text Support
 
     std::wstring debug_str;
+
+    std::unique_ptr<RenderTarget> debug_target;
     //ID2D1DeviceContext* text_context = nullptr;
     //ID2D1Factory* pD2DFactory_ = nullptr;
     //IDWriteFactory* pDWriteFactory_ = nullptr;
@@ -107,9 +110,6 @@ private:
     //RenderTarget* text_renderer = nullptr;
     void GenerateTerrain();
 
-    static constexpr UINT32 geometry_num = 10000;
-    static constexpr auto mid_height = default_height / 2;
-
-    D2D1_POINT_2F test_geometry[geometry_num];
+    Debug_Graph fps_graph;
 
 };

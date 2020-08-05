@@ -41,6 +41,7 @@
     <ClInclude Include="CPUUsageTimer.h" />
     <ClInclude Include="Performance.h" />
     <ClInclude Include="ThreadPool.h" />
+    <ClInclude Include="Debug_Graph.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="CPUUsageTimer.cpp" />
     <ClCompile Include="Performance.cpp" />
     <ClCompile Include="ThreadPool.cpp" />
+    <ClCompile Include="Debug_Graph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">

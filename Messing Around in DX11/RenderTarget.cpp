@@ -64,31 +64,31 @@ RenderTarget::RenderTarget(ID3D11Device* _device, int _width, int _height) :m_wi
 	// Create the shader resource view.
 	result = _device->CreateShaderResourceView(m_renderTargetTexture, &shaderResourceViewDesc, &m_textureSRV);
 
-	//create BlendState for digging
-	D3D11_BLEND_DESC blendDesc;
-	ZeroMemory(&blendDesc, sizeof(blendDesc));
+	////create BlendState for digging
+	//D3D11_BLEND_DESC blendDesc;
+	//ZeroMemory(&blendDesc, sizeof(blendDesc));
 
-	D3D11_RENDER_TARGET_BLEND_DESC rtbd;
-	ZeroMemory(&rtbd, sizeof(rtbd));
+	//D3D11_RENDER_TARGET_BLEND_DESC rtbd;
+	//ZeroMemory(&rtbd, sizeof(rtbd));
 
-	rtbd.BlendEnable = true;
-	rtbd.SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	rtbd.DestBlend = D3D11_BLEND_ONE;
-	rtbd.BlendOp = D3D11_BLEND_OP_REV_SUBTRACT;
-	rtbd.SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
-	rtbd.DestBlendAlpha = D3D11_BLEND_ONE;
-	rtbd.BlendOpAlpha = D3D11_BLEND_OP_REV_SUBTRACT;
-	rtbd.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	//rtbd.BlendEnable = true;
+	//rtbd.SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	//rtbd.DestBlend = D3D11_BLEND_ONE;
+	//rtbd.BlendOp = D3D11_BLEND_OP_REV_SUBTRACT;
+	//rtbd.SrcBlendAlpha = D3D11_BLEND_SRC_ALPHA;
+	//rtbd.DestBlendAlpha = D3D11_BLEND_ONE;
+	//rtbd.BlendOpAlpha = D3D11_BLEND_OP_REV_SUBTRACT;
+	//rtbd.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	blendDesc.AlphaToCoverageEnable = false;
-	blendDesc.RenderTarget[0] = rtbd;
+	//blendDesc.AlphaToCoverageEnable = false;
+	//blendDesc.RenderTarget[0] = rtbd;
 
-	result = _device->CreateBlendState(&blendDesc, &m_digBlendState);
+	//result = _device->CreateBlendState(&blendDesc, &m_digBlendState);
 }
 
 RenderTarget::~RenderTarget()
 {
-	DX::SafeRelease(&m_digBlendState);
+	//DX::SafeRelease(&m_digBlendState);
 	DX::SafeRelease(&m_textureSRV);
 	DX::SafeRelease(&m_renderTargetView);
 	DX::SafeRelease(&m_stageTexture);

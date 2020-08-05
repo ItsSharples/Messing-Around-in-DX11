@@ -31,7 +31,6 @@ public:
 	//clear render target
 	void ClearRenderTarget(ID3D11DeviceContext* _pd3dImmediateContext, float red, float green, float blue, float alpha);
 
-
 	// Begin/End a rendering to the target
 	void Begin(ID3D11DeviceContext* _pd3dImmediateContext, bool _deletePass = false);
 	void End(ID3D11DeviceContext* _pd3dImmediateContext);
@@ -43,11 +42,6 @@ public:
 	void Unmap(ID3D11DeviceContext* _pd3dImmediateContext);
 	UINT GetPitch();
 	Color* GetPixel(int x, int y, GameData* _GD);
-
-	ID3D11BlendState* GetDigBlend()
-	{
-		return m_digBlendState;
-	}
 
 protected:
 
@@ -76,8 +70,4 @@ protected:
 	//pointers to the old render target and depth stencil views
 	ID3D11RenderTargetView* m_oldRenderTargetView = nullptr;
 	ID3D11DepthStencilView* m_oldDepthStencilView = nullptr;
-
-	//digging Blendstate
-	ID3D11BlendState* m_digBlendState = nullptr;
-
 };

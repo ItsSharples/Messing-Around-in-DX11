@@ -171,6 +171,7 @@
     <ClInclude Include="Debugging\LoggerTypes.h" />
     <ClInclude Include="Debugging\Logging.h" />
     <ClInclude Include="Debugging\LoggingEnums.h" />
+    <ClInclude Include="Debug_Graph.h" />
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="Debugging\Logger Types\DXLogger.h" />
     <ClInclude Include="DeviceResources2D.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="Clickable.cpp" />
     <ClCompile Include="Debugging\Logger Types\StdOutLogger.cpp" />
     <ClCompile Include="Debugging\Logging.cpp" />
+    <ClCompile Include="Debug_Graph.cpp" />
     <ClCompile Include="DeviceResources.cpp" />
     <ClCompile Include="Debugging\Logger Types\DXLogger.cpp" />
     <ClCompile Include="DeviceResources2D.cpp" />
